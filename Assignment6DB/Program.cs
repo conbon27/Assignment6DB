@@ -57,10 +57,10 @@ namespace Assignment6DB
             Console.ReadKey();
 
             Orders o1 = new Orders();
-            // method to create new Customer table
+            // method to create new order table
             o1.orderCreation();
 
-            // method to insert data into Customer table
+            // method to insert data into order table
             o1.Insert();
             //return read
             o1.ReadTable();
@@ -74,8 +74,10 @@ namespace Assignment6DB
             o1.ReadTable();
             // method to delete
             o1.deleteDB();
-            //return read
+            // return read
             o1.ReadTable();
+            // calculate average
+            o1.averageOrder();
             Console.ReadKey();
         }
     }

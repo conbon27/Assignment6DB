@@ -9,6 +9,7 @@ namespace Assignment6DB
 {
     class Orders
     {
+        public double avg { get; set; }
         // creates connection variable
         private readonly MySqlConnection conn = new MySqlConnection("Server = danu6.it.nuigalway.ie; Database = mydb2463; Uid = mydb2463ca; Pwd = mi3tax");
         // creates reader
@@ -65,11 +66,7 @@ namespace Assignment6DB
             }
             finally
             {
-                // close the reader
-                if (reader != null)
-                {
-                    reader.Close();
-                }
+                
                 // close the connection
                 if (conn != null)
                 {
@@ -173,6 +170,44 @@ namespace Assignment6DB
             }
             finally
             {
+                // close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+        // average cost of order method
+        public void averageOrder()
+        {
+            try
+            {
+                conn.Open();
+                // average sql command
+                string averageOrder = @"SELECT AVG(OrderPrice) FROM OrderTab;;";
+                MySqlCommand cmdAvg = new MySqlCommand(averageOrder, conn);
+                cmdAvg.ExecuteReader();
+                while (reader.Read())
+                {
+                    // write out columns
+                    Console.WriteLine(reader[0]);
+                    avg = (double)reader[0];
+                    
+                }
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                // outputs error message
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // close the reader
+                if (reader != null)
+                {
+                    reader.Close();
+                }
                 // close the connection
                 if (conn != null)
                 {

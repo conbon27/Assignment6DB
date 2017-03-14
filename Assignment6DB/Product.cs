@@ -9,6 +9,8 @@ namespace Assignment6DB
 {
     class Product
     {
+        // creates average variable to pass info from DB into
+        public double average { get; set; }
         // creates connection variable
         private readonly MySqlConnection conn = new MySqlConnection("Server = danu6.it.nuigalway.ie; Database = mydb2463; Uid = mydb2463ca; Pwd = mi3tax");
         // creates reader
