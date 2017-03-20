@@ -180,5 +180,33 @@ namespace Assignment6DB
                 }
             }
         }
+
+        public int CustomerCount()
+        {
+            var count = 0;
+            try
+            {
+                conn.Open();
+                // delete data
+                string cntCmd = @"SELECT COUNT(*) FROM CustomerTab WHERE Complaints='Yes';";
+                // delete data 
+                MySqlCommand cmdCount = new MySqlCommand(cntCmd, conn);
+                count = Convert.ToInt32(cmdCount.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                // outputs error message
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return count;
+        }
     }
 }

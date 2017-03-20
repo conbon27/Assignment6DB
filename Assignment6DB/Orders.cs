@@ -7,9 +7,8 @@ using MySql.Data.MySqlClient;
 
 namespace Assignment6DB
 {
-    class Orders
+    public class Orders
     {
-        public double avg { get; set; }
         // creates connection variable
         private readonly MySqlConnection conn = new MySqlConnection("Server = danu6.it.nuigalway.ie; Database = mydb2463; Uid = mydb2463ca; Pwd = mi3tax");
         // creates reader
@@ -132,7 +131,7 @@ namespace Assignment6DB
             {
                 conn.Open();
                 // update data with data per columns
-                string updateDB = @"UPDATE OrderTab SET Terms = 'Cash' WHERE ID = '1001';";
+                string updateDB = @"UPDATE OrderTab SET Terms = 'Cash' WHERE OID = '1001';";
                 // update command object
                 MySqlCommand cmdUpdate = new MySqlCommand(updateDB, conn);
                 cmdUpdate.ExecuteNonQuery();
@@ -158,7 +157,7 @@ namespace Assignment6DB
             {
                 conn.Open();
                 // delete data
-                string deleteDB = @"DELETE FROM OrderTab WHERE ID = '1003';";
+                string deleteDB = @"DELETE FROM OrderTab WHERE OID = '1003';";
                 // delete data 
                 MySqlCommand cmdDelete = new MySqlCommand(deleteDB, conn);
                 cmdDelete.ExecuteNonQuery();
@@ -178,22 +177,20 @@ namespace Assignment6DB
             }
         }
         // average cost of order method
-        public void averageOrder()
+        public decimal AverageOrder()
         {
+            // declare int variable
+            decimal avg = 0.00m;
             try
             {
                 conn.Open();
                 // average sql command
-                string averageOrder = @"SELECT AVG(OrderPrice) FROM OrderTab;;";
+                string averageOrder = @"SELECT AVG(OrderPrice) FROM OrderTab;";
                 MySqlCommand cmdAvg = new MySqlCommand(averageOrder, conn);
-                cmdAvg.ExecuteReader();
-                while (reader.Read())
-                {
-                    // write out columns
-                    Console.WriteLine(reader[0]);
-                    avg = (double)reader[0];
-                    
-                }
+                avg = (decimal)cmdAvg.ExecuteScalar();
+
+                Console.WriteLine(avg);
+
                 Console.ReadKey();
             }
             catch (Exception ex)
@@ -203,17 +200,79 @@ namespace Assignment6DB
             }
             finally
             {
-                // close the reader
-                if (reader != null)
-                {
-                    reader.Close();
-                }
                 // close the connection
                 if (conn != null)
                 {
                     conn.Close();
                 }
             }
+            return avg;
+            
+        }
+        public decimal LargestOrder()
+        {
+            // declare int variable
+            decimal max = 0.00m;
+            try
+            {
+                conn.Open();
+                // average sql command
+                string maxOrder = @"SELECT MAX(OrderPrice) FROM OrderTab;";
+                MySqlCommand cmdMax = new MySqlCommand(maxOrder, conn);
+                max = (decimal)cmdMax.ExecuteScalar();
+
+                Console.WriteLine(max);
+
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                // outputs error message
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return max;
+
+        }
+
+        public decimal TotalOrders()
+        {
+            // declare int variable
+            decimal total = 0.00m;
+            try
+            {
+                conn.Open();
+                // average sql command
+                string Order = @"SELECT SUM(OrderPrice) FROM OrderTab;";
+                MySqlCommand cmdO = new MySqlCommand(Order, conn);
+                total = (decimal)cmdO.ExecuteScalar();
+
+                Console.WriteLine(total);
+
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                // outputs error message
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return total;
+
         }
     }
 }

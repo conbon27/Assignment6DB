@@ -1,9 +1,5 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MySql.Data.MySqlClient;
+using NUnit.Framework;
 using System.Transactions;
 
 namespace Assignment6DB
@@ -12,6 +8,8 @@ namespace Assignment6DB
     public class YourFixture
     {
         private TransactionScope scope;
+        // creates connection variable
+        private readonly MySqlConnection conn = new MySqlConnection("Server = danu6.it.nuigalway.ie; Database = mydb2463; Uid = mydb2463ca; Pwd = mi3tax");
 
         [SetUp]
         public void SetUp()
@@ -26,7 +24,7 @@ namespace Assignment6DB
         }
 
         [Test]
-        public void testAverage()
+        public void TestAverage()
         {
             using (TransactionScope scope = new TransactionScope()) {
                 Orders o1 = new Orders();
@@ -39,9 +37,57 @@ namespace Assignment6DB
                 o1.updateTable();
                 // method to delete
                 o1.deleteDB();
-                o1.averageOrder();
+                o1.AverageOrder();
                 // assert
-                 Assert.AreEqual(114.970000, o1.avg);
+                Assert.AreEqual(144.84m, o1.AverageOrder());
+            }
+        }
+        [Test]
+        public void TestCustomerCount()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                Customer c1 = new Customer();
+                
+                c1.updateTable();
+                int count = 1;                
+                Assert.AreEqual(count, c1.CustomerCount());
+            }
+        }
+        [Test]
+        public void TestLargestOrder()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                Orders o1 = new Orders();
+                // method to create new order
+                // assertion
+                decimal expected = 234.45m;
+                Assert.AreEqual(expected, o1.LargestOrder());
+            }
+        }
+        [Test]
+        public void TestTotalOrder()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                Orders o1 = new Orders();
+                // method to create new order
+                // assertion
+                decimal expected = 289.68m;
+                Assert.AreEqual(expected, o1.TotalOrders());
+            }
+        }
+        [Test]
+        public void TestCheapest()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                Product p1 = new Product();
+                // method to create new order
+                // assertion
+                decimal expected = 0.65m;
+                Assert.AreEqual(expected, p1.Cheap());
             }
         }
     }

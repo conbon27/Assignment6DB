@@ -182,5 +182,31 @@ namespace Assignment6DB
                 }
             }
         }
+
+        public decimal Cheap()
+        {
+            var cheap = 0.00m;
+            try
+            {
+                conn.Open();
+                string cheapest = @"SELECT MIN(Price) FROM ProductTab;";
+                MySqlCommand cmdCheap = new MySqlCommand(cheapest, conn);
+                cheap = Convert.ToDecimal(cmdCheap.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                // outputs error message
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return cheap;
+        }
     }
 }

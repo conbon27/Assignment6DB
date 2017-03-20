@@ -52,6 +52,7 @@ namespace Assignment6DB
             c1.ReadTable();
             // method to delete
             c1.deleteDB();
+            c1.CustomerCount();
             //return read
             c1.ReadTable();
             Console.ReadKey();
@@ -77,7 +78,7 @@ namespace Assignment6DB
             // return read
             o1.ReadTable();
             // calculate average
-            o1.averageOrder();
+            o1.AverageOrder();
             Console.ReadKey();
         }
     }
